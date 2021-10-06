@@ -149,7 +149,7 @@ combined_table["CountryNames"] = combined_table["Country_code"].map(get_countryn
 combined_table = combined_table.drop(columns="index")
 
 
-geolocator = Nominatim(user_agent="COVID_analysis4")
+geolocator = Nominatim(user_agent="COVID_analysis5")
 def geolocate(country):
     try:
         # Geolocate the center of the country
@@ -180,6 +180,9 @@ located_countries["Longitude"] = ""
 
 country_list = list(located_countries["CountryNames"])
 
+st.subheader("New Cases and Deaths In The Past 7 Days")
+map_load_state = st.text('Loading Map...')
+
 i=0
 for countryname in country_list:
     lat, lon = geolocate(countryname)
@@ -205,5 +208,6 @@ for i in range(len(located_countries)):
                                    )
         folium.Marker(location = [lat, long], radius=radius, popup= popup_text, fill =True, prefer_canvas=True).add_to(marker_cluster)
 #show the map
-st.subheader("New Cases and Deaths In The Past 7 Days")
+
 st.write(world_map)
+map_load_state.text("Map Loaded")
